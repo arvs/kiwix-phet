@@ -4,7 +4,7 @@ import requests
 import codecs
 
 from argparse import ArgumentParser
-from sh import git, mkdir, curl, cd, npm, cp
+from sh import git, mkdir, curl, cd, npm, cp, glob, rm
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
 
@@ -51,7 +51,7 @@ class PhetScraper(object):
     for name, repo in self.repos.iteritems():
       git.clone(repo)
 
-  def compile_simulations(self, locales="en"):
+  def compile_simulations(self, locales="en", delete_after_use=False):
     # if this doesn't work, the paths for the commands are different. The shell script is (per repo):
     # cd repo
     # npm install
@@ -66,17 +66,21 @@ class PhetScraper(object):
         cd(name)
         # npm.install()
         # grunt.build(force=True, locales=locales)
-        cp("*.html", "../sims")
-        cp("images/*", "../sims/images")
-        cp("js/*", "../sims/js")
+        cp(glob("*.html"), "../sims")
+        if path.exists("images"):
+          cp("-r", glob("images/*"), "../sims/images")
+        if path.exists("js"):
+          cp("-r", glob("js/*"), "../sims/js")
         cd("..")
-        rm("-rf", name)
+        if delete_after_use:
+          rm("-rf", name)
 
 if __name__ == '__main__':
   parser = ArgumentParser()
   parser.add_argument("--scrape_thumbs", help="scrape thumbnails", action="store_true")
   parser.add_argument("--download_repos", help="clone the git repos", action="store_true")
   parser.add_argument("--locales", default = "en", help="short form locales, i.e. ar,fr,es. English by default.")
+  parser.add_argument("--delete_repos", help = "delete repos after copy", action="store_true", default=False)
   args = parser.parse_args()
   scraper = PhetScraper()
   if args.scrape_thumbs:
@@ -84,4 +88,4 @@ if __name__ == '__main__':
   scraper.generate_index(args.locales)
   if args.download_repos:
     scraper.update_repos()
-  scraper.compile_simulations(args.locales)
+  scraper.compile_simulations(args.locales, args.delete_repos)
