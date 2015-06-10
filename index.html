@@ -7,13 +7,15 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="../css/normalize.css">
   <link rel="stylesheet" href="../css/skeleton.css">
+  <link rel="stylesheet" href="../css/custom.css">
   <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
-<body>
+<body class="has-docked-nav">
   <div class="container">
+    <div class="navbar-spacer"></div>
     <nav class="navbar">
       <div class="container">
-        <h4>PHET Interactive Simulations</h4>
+        <div class="navbar-link">PHET Interactive Simulations</div>
       </div>
     </nav>
     <div class="row">
@@ -25,7 +27,7 @@
           {% endif %}
             <td>
               <a href="{{link}}"><img src="images/{{name}}.png" /></a><br>
-              <h8 style="text-align:center">{{link.replace("-", " ").title()}}</h8>
+              <div class="thumb-title">{{name.replace("-", " ").title()}}</h8>
             </td>
           {% endfor %}
           </tr>
