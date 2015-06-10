@@ -1,0 +1,39 @@
+[submodule "sun"]
+	path = sun
+	url = https://github.com/phetsims/sun.git
+[submodule "scenery"]
+	path = scenery
+	url = https://github.com/phetsims/scenery.git
+[submodule "phetcommon"]
+	path = phetcommon
+	url = https://github.com/phetsims/phetcommon.git
+[submodule "phet-core"]
+	path = phet-core
+	url = https://github.com/phetsims/phet-core.git
+[submodule "kite"]
+	path = kite
+	url = https://github.com/phetsims/kite.git
+[submodule "joist"]
+	path = joist
+	url = https://github.com/phetsims/joist.git
+[submodule "dot"]
+	path = dot
+	url = https://github.com/phetsims/dot.git
+[submodule "brand"]
+	path = brand
+	url = https://github.com/phetsims/brand.git
+[submodule "axon"]
+	path = axon
+	url = https://github.com/phetsims/axon.git
+[submodule "sherpa"]
+	path = sherpa
+	url = https://github.com/phetsims/sherpa.git
+[submodule "assert"]
+	path = assert
+	url = https://github.com/phetsims/assert.git
+[submodule "chipper"]
+	path = chipper
+	url = https://github.com/phetsims/chipper.git
+[submodule "scenery-phet"]
+	path = scenery-phet
+	url = https://github.com/phetsims/scenery-phet.git
