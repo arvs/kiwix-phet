@@ -37,3 +37,12 @@
 [submodule "scenery-phet"]
 	path = scenery-phet
 	url = https://github.com/phetsims/scenery-phet.git
+[submodule "babel"]
+	path = babel
+	url = https://github.com/phetsims/babel.git
+[submodule "vegas"]
+	path = vegas
+	url = https://github.com/phetsims/vegas.git
+[submodule "vibe"]
+	path = vibe
+	url = https://github.com/phetsims/vibe.git
