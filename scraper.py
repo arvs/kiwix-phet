@@ -1,16 +1,20 @@
 import json
 from os import path
 import requests
+import codecs
 
-from sh import git, mkdir, curl, cd, grunt, npm
+from sh import git, mkdir, curl, cd, npm
 from bs4 import BeautifulSoup
+from jinja2 import Environment, FileSystemLoader
+
+__all__ = ["PhetScraper"]
 
 class PhetScraper(object):
 
   def __init__(self, repos = "repositories.json"):
     self.repos = json.load(open(repos))
 
-  def scrape_thumbnails(self, index_page):
+  def scrape_thumbnails(self, index_page = "https://phet.colorado.edu/en/simulations/category/new"):
     r = requests.get(index_page)
     if not r.ok:
       print "Failed Scrape!"
@@ -29,14 +33,16 @@ class PhetScraper(object):
       if r.ok:
         with open(image_path, "wb") as f:
           f.write(r.content)
+    json.dump(self.repos, open("repositories.json", "wb"))
 
   def generate_index(self):
+    print "Generating Index"
     base_path = path.dirname(path.realpath(__file__))
     env = Environment(loader=FileSystemLoader(base_path))
     template = env.get_template('index.html')
-    sims = {name : "%s_en.html" % name for name in self.repos}
-    with open("%s/index.html" % path.join(base_path, "sims"), 'w') as f:
-      f.write(template.render(sims = sims))
+    sims = {name : u"%s_en.html" % name for name in self.repos}
+    with codecs.open("%s/index.html" % path.join(base_path, "sims"), 'w', 'utf-8') as f:
+      f.write(template.render(sims = sims).decode('utf-8', 'ignore'))
 
   def update_repos(self):
     git.submodule.update()
@@ -65,7 +71,7 @@ class PhetScraper(object):
 
 if __name__ == '__main__':
   scraper = PhetScraper()
-  scraper.scrape_thumbnails("https://phet.colorado.edu/en/simulations/category/new")
+  scraper.scrape_thumbnails()
   scraper.generate_index()
   scraper.update_repos()
   scraper.compile_simulations()
